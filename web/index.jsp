@@ -9,7 +9,16 @@
 </head>
 <body>
     <h1>
-        Teste
+        API Endpoints List
     </h1>
+
+    <ul>
+        <li>
+            <a href="/rest/ebooks" >/rest/ebooks</a>
+        </li>
+        <li>
+            <a href="/rest/hello" >/rest/hello</a>
+        </li>
+    </ul>
 </body>
 </html>

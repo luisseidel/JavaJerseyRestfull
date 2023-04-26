@@ -4,10 +4,14 @@ import jakarta.ws.rs.ApplicationPath;
 import jakarta.ws.rs.core.Application;
 
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 
-@ApplicationPath("/api")
+@ApplicationPath("/rest")
 public class MyApplication extends Application {
+
+    public MyApplication() {}
 
     @Override
     public Map<String, Object> getProperties() {

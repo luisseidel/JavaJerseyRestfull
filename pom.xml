@@ -8,7 +8,7 @@
     <artifactId>JavaJerseyRestfull</artifactId>
     <version>1.0-SNAPSHOT</version>
     <packaging>war</packaging>
-    <name>Java Jersey Restfull</name>
+    <name>JavaJerseyRestfull</name>
 
     <properties>
         <java.version>20</java.version>
@@ -18,7 +18,7 @@
     </properties>
 
     <build>
-        <finalName>ServletsJava</finalName>
+        <finalName>JavaJerseyRestfull</finalName>
         <directory>${project.basedir}/target</directory>
         <plugins>
             <plugin>
@@ -89,13 +89,6 @@
             <groupId>jakarta.ws.rs</groupId>
             <artifactId>jakarta.ws.rs-api</artifactId>
             <version>3.1.0</version>
-            <scope>provided</scope>
-        </dependency>
-
-        <dependency>
-            <groupId>org.glassfish.jersey.containers</groupId>
-            <artifactId>jersey-container-servlet</artifactId>
-            <version>3.1.1</version>
             <scope>provided</scope>
         </dependency>
 
