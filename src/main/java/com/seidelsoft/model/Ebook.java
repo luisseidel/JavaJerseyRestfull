@@ -42,4 +42,13 @@ public class Ebook {
     public void setEditora(String editora) {
         this.editora = editora;
     }
+
+    @Override
+    public String toString() {
+        return "Ebook{" +
+                "id=" + id +
+                ", nome='" + nome + '\'' +
+                ", editora='" + editora + '\'' +
+                '}';
+    }
 }

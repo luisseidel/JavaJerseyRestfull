@@ -1,7 +1,9 @@
 package com.seidelsoft.dao;
 
 import com.seidelsoft.model.Ebook;
+import com.seidelsoft.webservices.Response;
 
+import java.lang.reflect.Field;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -22,8 +24,21 @@ public class EbookDAO extends BaseDAO<Ebook> {
             PreparedStatement stmt = getConnection().prepareStatement(selectById(id));
             ResultSet result = executeQueryForGet(stmt);
 
-            return createAuthor(result);
+            return createRegister(result);
 
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+
+        return null;
+    }
+
+    public List<Ebook> getByName(String name) {
+        try {
+            PreparedStatement stmt = getConnection().prepareStatement(selectByName("nome", name));
+            ResultSet result = executeQueryForGet(stmt);
+
+            return prepareListOf(result);
         } catch (SQLException ex) {
             ex.printStackTrace();
         }
@@ -55,7 +70,7 @@ public class EbookDAO extends BaseDAO<Ebook> {
 
             ResultSet exists = verifyBeforeInsert(colVals);
             if (exists != null && exists.next()) {
-                throw new SQLException("Usuário já existe no banco de dados!");
+                throw new SQLException("Registro já existe no banco de dados!");
             }
 
             if (exists != null && !exists.next()) {
@@ -73,11 +88,29 @@ public class EbookDAO extends BaseDAO<Ebook> {
         return null;
     }
 
+    public Ebook update(Long id, Ebook e) throws SQLException, IllegalAccessException, NoSuchFieldException {
+        if (id == null || id <= 0)
+            throw new SQLException("Informe um id");
+
+        Map<String, Object> colVals = new HashMap<>();
+
+        for (Field field : e.getClass().getDeclaredFields()) {
+            if (!field.getName().equalsIgnoreCase("id")) {
+                field.setAccessible(true);
+                colVals.put(field.getName(), field.get(e));
+            }
+        }
+
+        executeUpdate(id, colVals);
+
+        return getById(id);
+    }
+
     @Override
     public void delete(Long id) throws SQLException {
         try {
             if (getById(id) == null)
-                throw new SQLException("Usuário não existe na base de dados!");
+                throw new SQLException("Registro não existe na base de dados!");
             executeDelete(id);
         } catch (SQLException e) {
             throw new SQLException(e);
@@ -99,7 +132,7 @@ public class EbookDAO extends BaseDAO<Ebook> {
         return list;
     }
 
-    private Ebook createAuthor(ResultSet result) throws SQLException {
+    private Ebook createRegister(ResultSet result) throws SQLException {
         while (result.next()) {
             Long id = result.getLong("id");
             String nome = result.getString("nome");

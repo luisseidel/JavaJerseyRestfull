@@ -6,14 +6,23 @@ import jakarta.xml.bind.annotation.XmlRootElement;
 public class Response {
     private String status;
     private String msg;
+    private String body;
 
     public Response() {
     }
 
-    public static Response Ok(String string) {
+    public static Response Ok(String msg) {
         Response r = new Response();
         r.setStatus("OK");
-        r.setMsg(string);
+        r.setMsg(msg);
+        return r;
+    }
+
+    public static Response Ok(String msg, String body) {
+        Response r = new Response();
+        r.setStatus("OK");
+        r.setMsg(msg);
+        r.setBody(body);
         return r;
     }
 
@@ -38,6 +47,14 @@ public class Response {
 
     public void setStatus(String status) {
         this.status = status;
+    }
+
+    public String getBody() {
+        return body;
+    }
+
+    public void setBody(String body) {
+        this.body = body;
     }
 }
 

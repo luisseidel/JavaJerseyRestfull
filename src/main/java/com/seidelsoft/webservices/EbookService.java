@@ -20,33 +20,16 @@ public class EbookService {
         return getDao().getById(id);
     }
 
+    public List<Ebook> getByName(String name) {
+        return getDao().getByName(name);
+    }
+
     public Ebook save(Ebook obj) throws SQLException {
         return getDao().save(obj);
     }
 
-    public List<Ebook> getList() {
-        return getDao().getList();
-    }
-
-    public Ebook createAuthor(Long id, String body) {
-        Ebook author = null;
-        if (id != null) {
-            author = getById(id);
-        }
-        if (author == null) {
-            author = new Ebook(id);
-        }
-
-        if (body != null) {
-            JsonObject jsonObject = JsonUtil.toJsonObject(body, JsonObject.class);
-            String nome = jsonObject.get("nome").toString().replace("\"", "");
-            String editora = jsonObject.get("editora").toString().replace("\"", "");
-
-            author.setNome(nome);
-            author.setEditora(editora);
-        }
-
-        return author;
+    public Ebook update(Long id, Ebook obj) throws SQLException, IllegalAccessException, NoSuchFieldException {
+        return getDao().update(id, obj);
     }
 
     public void delete(Long id) throws SQLException {

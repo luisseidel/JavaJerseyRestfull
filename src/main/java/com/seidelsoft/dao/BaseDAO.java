@@ -54,6 +54,11 @@ public abstract class BaseDAO<T> {
         stmt.executeUpdate();
     }
 
+    public void executeUpdate(Long id, Map<String, Object> columnsValues) throws SQLException {
+        PreparedStatement stmt = getConnection().prepareStatement(updateQuery(id, columnsValues));
+        stmt.executeUpdate();
+    }
+
     public void executeDelete(Long id) throws SQLException {
         PreparedStatement stmt = getConnection().prepareStatement(deleteById(id));
         stmt.executeUpdate();
@@ -61,6 +66,10 @@ public abstract class BaseDAO<T> {
 
     public String selectById(Long id) {
         return "select * from " + getTableName() + " where id = " + id;
+    }
+
+    public String selectByName(String columnName, String nameValue) {
+        return "select * from " + getTableName() + " where " + "lower("+columnName+")" + " like " + "LOWER('%"+ nameValue +"%')";
     }
 
     public String getListQuery() {
@@ -110,6 +119,31 @@ public abstract class BaseDAO<T> {
         insert = insert.replace("{values}", values);
 
         return insert;
+    }
+
+    public String updateQuery(Long id, Map<String, Object> columnsValues) {
+        StringBuilder colVals = new StringBuilder();
+
+        String update = "update " + getTableName() + " set {colvals} where id = " + id;
+
+        int qtd = columnsValues.entrySet().size();
+        int count = 0;
+        for (Map.Entry<String, Object> entry : columnsValues.entrySet()) {
+            String column = entry.getKey();
+            Object value = entry.getValue();
+
+            count++;
+            if (count >= qtd) {
+                colVals.append(column + " = '" + value + "'");
+            } else {
+                colVals.append(column + " = '" + value + "', ");
+            }
+        }
+        update = update.replace("{colvals}", colVals);
+
+        System.out.println(update);
+
+        return update;
     }
 
     public String getMaxId() {
