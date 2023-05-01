@@ -1,7 +1,6 @@
 package com.seidelsoft.dao;
 
-import com.seidelsoft.model.Ebook;
-import com.seidelsoft.webservices.Response;
+import com.seidelsoft.model.Empresa;
 
 import java.lang.reflect.Field;
 import java.sql.PreparedStatement;
@@ -12,14 +11,14 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class EbookDAO extends BaseDAO<Ebook> {
+public class EmpresaDAO extends BaseDAO<Empresa> {
 
-    public EbookDAO(String tableName) {
+    public EmpresaDAO(String tableName) {
         super(tableName);
     }
 
     @Override
-    public Ebook getById(Long id) {
+    public Empresa getById(Long id) {
         try {
             PreparedStatement stmt = getConnection().prepareStatement(selectById(id));
             ResultSet result = executeQueryForGet(stmt);
@@ -33,7 +32,7 @@ public class EbookDAO extends BaseDAO<Ebook> {
         return null;
     }
 
-    public List<Ebook> getByName(String name) {
+    public List<Empresa> getByName(String name) {
         try {
             PreparedStatement stmt = getConnection().prepareStatement(selectByName("nome", name));
             ResultSet result = executeQueryForGet(stmt);
@@ -47,7 +46,7 @@ public class EbookDAO extends BaseDAO<Ebook> {
     }
 
     @Override
-    public List<Ebook> getList() {
+    public List<Empresa> getList() {
         try {
             PreparedStatement stmt = getConnection().prepareStatement(getListQuery());
             ResultSet result = executeQueryForGet(stmt);
@@ -62,11 +61,11 @@ public class EbookDAO extends BaseDAO<Ebook> {
     }
 
     @Override
-    public Ebook save(Ebook a) throws SQLException {
+    public Empresa save(Empresa a) throws SQLException {
         try {
             Map<String, String> colVals = new HashMap<>();
             colVals.put("nome", a.getNome());
-            colVals.put("editora", a.getEditora());
+            colVals.put("endereco", a.getEndereco());
 
             ResultSet exists = verifyBeforeInsert(colVals);
             if (exists != null && exists.next()) {
@@ -88,7 +87,7 @@ public class EbookDAO extends BaseDAO<Ebook> {
         return null;
     }
 
-    public Ebook update(Long id, Ebook e) throws SQLException, IllegalAccessException, NoSuchFieldException {
+    public Empresa update(Long id, Empresa e) throws SQLException, IllegalAccessException, NoSuchFieldException {
         if (id == null || id <= 0)
             throw new SQLException("Informe um id");
 
@@ -118,27 +117,27 @@ public class EbookDAO extends BaseDAO<Ebook> {
     }
 
     @Override
-    protected List<Ebook> prepareListOf(ResultSet result) throws SQLException {
-        List<Ebook> list = new ArrayList<>();
+    protected List<Empresa> prepareListOf(ResultSet result) throws SQLException {
+        List<Empresa> list = new ArrayList<>();
 
         while (result.next()) {
             Long id = result.getLong("id");
             String nome = result.getString("nome");
-            String editora = result.getString("editora");
+            String endereco = result.getString("endereco");
 
-            list.add(new Ebook(id, nome, editora));
+            list.add(new Empresa(id, nome, endereco));
         }
 
         return list;
     }
 
-    private Ebook createRegister(ResultSet result) throws SQLException {
+    private Empresa createRegister(ResultSet result) throws SQLException {
         while (result.next()) {
             Long id = result.getLong("id");
             String nome = result.getString("nome");
-            String editora = result.getString("editora");
+            String endereco = result.getString("endereco");
 
-            return new Ebook(id, nome, editora);
+            return new Empresa(id, nome, endereco);
         }
 
         return null;

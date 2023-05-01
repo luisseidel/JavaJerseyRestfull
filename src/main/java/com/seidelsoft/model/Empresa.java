@@ -1,22 +1,22 @@
 package com.seidelsoft.model;
 
-public class Ebook {
+public class Empresa {
 
     private Long id;
     private String nome;
-    private String editora;
+    private String endereco;
 
-    public Ebook() {
+    public Empresa() {
     }
 
-    public Ebook(Long id) {
+    public Empresa(Long id) {
         this.id = id;
     }
 
-    public Ebook(Long id, String nome, String editora) {
+    public Empresa(Long id, String nome, String endereco) {
         this.id = id;
         this.nome = nome;
-        this.editora = editora;
+        this.endereco = endereco;
     }
 
     public Long getId() {
@@ -35,20 +35,20 @@ public class Ebook {
         this.nome = nome;
     }
 
-    public String getEditora() {
-        return editora;
+    public String getEndereco() {
+        return endereco;
     }
 
-    public void setEditora(String editora) {
-        this.editora = editora;
+    public void setEndereco(String endereco) {
+        this.endereco = endereco;
     }
 
     @Override
     public String toString() {
-        return "Ebook{" +
+        return "Empresa{" +
                 "id=" + id +
                 ", nome='" + nome + '\'' +
-                ", editora='" + editora + '\'' +
+                ", endereco='" + endereco + '\'' +
                 '}';
     }
 }
